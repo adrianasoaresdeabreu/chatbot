@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jardim Encantado - Escola de Educação Infantil</title>
+    <style>
+        /* Reset e estilos globais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Cabeçalho */
+        header {
+            background-color: #6ab7ff;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo img {
+            height: 80px;
+            margin-right: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* Navegação */
+        nav {
+            background-color: #4a9dec;
+            padding: 10px 0;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin: 0 15px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            background-color: #ff9e5e;
+        }
+        
+        /* Banner principal */
+        .banner {
+            height: 400px;
+            background-image: url('https://images.unsplash.com/photo-1604881991720-f91add269bed');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        
+        .banner-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 20px;
+        }
+        
+        .banner h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .banner p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #ff9e5e;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn:hover {
+            background-color: #ff7b2b;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        /* Seções */
+        section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #4a9dec;
+            font-size: 2rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: #ff9e5e;
+            margin: 15px auto 0;
+        }
+        
+        /* Sobre nós */
+        .about {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .about-img {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-img:hover img {
+            transform: scale(1.05);
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-text h3 {
+            color: #4a9dec;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .about-text p {
+            margin-bottom: 15px;
+        }
+        
+        /* Serviços */
+        .services {
+            background-color: #f0f7ff;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .service-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+        
+        .service-content {
+            padding: 20px;
+        }
+        
+        .service-content h3 {
+            color: #4a9dec;
+            margin-bottom: 10px;
+        }
+        
+        /* Depoimentos */
+        .testimonials {
+            text-align: center;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .testimonial-card::before {
+            content: '"';
+            font-size: 5rem;
+            color: #ff9e5e;
+            opacity: 0.2;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+        }
+        
+        .testimonial-card p {
+            margin-bottom: 20px;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .testimonial-author img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 3px solid #6ab7ff;
+        }
+        
+        .author-info h4 {
+            color: #4a9dec;
+            margin-bottom: 5px;
+        }
+        
+        /* Contato */
+        .contact {
+            background-color: #f0f7ff;
+        }
+        
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-info h3 {
+            color: #4a9dec;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .info-item i {
+            color: #ff9e5e;
+            font-size: 1.5rem;
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+        
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a9dec;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #6ab7ff;
+            outline: none;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        /* Rodapé */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            color: #ff9e5e;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #ff9e5e;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #555;
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: #ff9e5e;
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            width: 100%;
+        }
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 5px 0;
+            }
+            
+            .banner h2 {
+                font-size: 2rem;
+            }
+            
+            .banner p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://via.placeholder.com/80" alt="Logo Jardim Encantado">
+            <h1>Jardim Encantado</h1>
+        </div>
+        <p>Educação com amor, cuidado e alegria</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#home">Início</a></li>
+            <li><a href="#about">Sobre Nós</a></li>
+            <li><a href="#services">Serviços</a></li>
+            <li><a href="#testimonials">Depoimentos</a></li>
+           
+        </ul> <li><a href="#contact">Contato</a></li>
+         <li><a href="index.html"> index </a></li>
+         <li><a href="pagina2.html"> Página 2 </a></li>
+         <li><a href="quiz.html"> Página do Quiz </a></li>
+    </nav>
+    
+    <section class="banner" id="home">
+        <div class="banner-content">
+            <h2>Bem-vindo ao Jardim Encantado</h2>
+            <p>O lugar onde seu filho cresce, aprende e se desenvolve com alegria e segurança.</p>
+            <a href="#contact" class="btn">Agende uma Visita</a>
+        </div>
+    </section>
+    
+    <section id="about">
+        <h2 class="section-title">Sobre Nós</h2>
+        <div class="about">
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1588072432836-e10032774350" alt="Crianças na escola">
+            </div>
+            <div class="about-text">
+                <h3>Nossa História</h3>
+                <p>Fundada em 2005, a Escola Jardim Encantado nasceu do sonho de oferecer uma educação infantil de qualidade, com foco no desenvolvimento integral das crianças.</p>
+                <p>Nossa equipe é formada por educadores altamente qualificados e apaixonados pelo que fazem, comprometidos em proporcionar um ambiente acolhedor e estimulante para os pequenos.</p>
+                <p>Acreditamos que cada criança é única e especial, e nosso método pedagógico respeita o ritmo individual de aprendizagem, promovendo a autonomia, a criatividade e o pensamento crítico.</p>
+                <a href="#services" class="btn">Conheça Nossos Serviços</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="services" id="services">
+        <h2 class="section-title">Nossos Serviços</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf" alt="Berçário">
+                </div>
+                <div class="service-content">
+                    <h3>Berçário</h3>
+                    <p>Atendimento especializado para bebês de 4 meses a 1 ano, com profissionais capacitados e ambiente especialmente preparado para essa fase tão importante.</p>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1588072432836-e10032774350" alt="Educação Infantil">
+                </div>
+                <div class="service-content">
+                    <h3>Educação Infantil</h3>
+                    <p>Turmas divididas por faixa etária (1 a 5 anos) com atividades pedagógicas lúdicas que estimulam o desenvolvimento cognitivo, motor e socioafetivo.</p>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754" alt="Atividades Extras">
+                </div>
+                <div class="service-content">
+                    <h3>Atividades Extras</h3>
+                    <p>Oficinas de música, artes, culinária infantil, jardinagem, educação ambiental e iniciação esportiva como parte do currículo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="testimonials" id="testimonials">
+        <h2 class="section-title">Depoimentos</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>Meu filho adora ir para a escola! Desde que começou no Jardim Encantado, seu desenvolvimento foi incrível. A equipe é maravilhosa e realmente se importa com cada criança.</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Ana Silva">
+                    <div class="author-info">
+                        <h4>Ana Silva</h4>
+                        <p>Mãe do Pedro (3 anos)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p>Como educadora, fico impressionada com a qualidade do projeto pedagógico da escola. Minha filha está desenvolvendo habilidades que vão muito além do currículo tradicional.</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Cláudia Martins">
+                    <div class="author-info">
+                        <h4>Cláudia Martins</h4>
+                        <p>Mãe da Sofia (4 anos)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p>A adaptação da minha filha foi perfeita, graças ao cuidado e atenção da equipe. A estrutura da escola é excelente e as atividades são sempre muito criativas e educativas.</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Patrícia Oliveira">
+                    <div class="author-info">
+                        <h4>Patrícia Oliveira</h4>
+                        <p>Mãe da Laura (2 anos)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="contact" id="contact">
+        <h2 class="section-title">Entre em Contato</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Informações de Contato</h3>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <p>Rua das Flores, 123</p>
+                        <p>Jardim Primavera - São Paulo/SP</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <p>(11) 1234-5678</p>
+                        <p>(11) 98765-4321 (WhatsApp)</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <p>contato@jardimencantado.com.br</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <p>Segunda a Sexta: 7h às 19h</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Seu Nome</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Seu E-mail</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Telefone</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mensagem</label>
+                        <textarea id="message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Enviar Mensagem</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sobre Nós</h3>
+                <p>A Escola Jardim Encantado oferece educação infantil de qualidade há mais de 15 anos, formando crianças felizes e preparadas para os desafios do futuro.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Links Rápidos</h3>
+                <ul>
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#about">Sobre Nós</a></li>
+                    <li><a href="#services">Serviços</a></li>
+                    <li><a href="#testimonials">Depoimentos</a></li>
+                    <li><a href="#contact">Contato</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Redes Sociais</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Jardim Encantado - Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
