@@ -3,171 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
-    <link rel="stylesheet" href="estilo1.css">
-    <link rel="stylesheet" href="estilo chatbot.css">
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <title>Escola Infantil</title>
+    <link rel="stylesheet" href="estilo.css">
+    
 </head>
-<body id="cordapagina">
-    <a href="Index.html">Voltar para a Página 1</a>
-    <a href="pagina2.html">Ir para a Página 2</a>
-    <a href="teste do site da escola feito pela ia.html"> ir para pagina teste</a>
-
-
-    <div class="quiz-container">
-        <h1>Quiz </h1>
-        <div id="quiz">
-            <p id="pergunta"></p>
-            <div id="opcoes"></div>
-            <button onclick="proximaPergunta()">Próxima</button>
-        </div>
-        <div>
-            <div id="resultado" class="hidden">
-                <h2>Resultado final</h2>
-                <p id="mensagem"></p>
-                <button onclick="reiniciarQuiz()">Jogar Novamente</button>
-            </div>
-        </div>
-    </div>
-
-    <audio id="musicacurso" src="musicacurso.mp3">
-        Your browser does not support the audio element.     
-    </audio>
-
-    <div class="container-chatbot"> <div id="janela-chat" class="janela-chat hidden">
-            <div class="header-chat">
-                <div class="header-chat-titulo">
-                    <h3>Fale com AdrIA</h3>
-                    <select id="seletor-ia" style="margin-bottom:8px;">
-                    <option value="gemini">Gemini</option>
-</select>
-                </div>
-                <button id="btn-fechar-chat">&times;</button>
-            </div>
-            <div id="corpo-chat" class="corpo-chat">
-                <div class="mensagem-bot">
-                    <span>😒Olá! Sou AdrIA, sua assistente virtual.</span>
-                </div>
-            </div>
-            <div class="rodape-chat">
-                <input type="text" id="input-chat" placeholder="Digite sua pergunta...">
-                <button id="btn-enviar-chat">
-                    <ion-icon name="send-outline"></ion-icon>
-                </button>
-            </div>
-        </div>
-        <button id="btn-abrir-chat" class="btn-abrir-chat">
-            <ion-icon name="chatbubbles-outline"></ion-icon>
-        </button>
-    </div>
-
-    <script>
-    const perguntas = [
-        {
-            pergunta: "Qual é a capital da França?",
-            opcoes: [
-                "Berlim",
-                "Madri",
-                "Paris",
-                "Lisboa"
-            ],
-            resposta: "Paris"
-        },
-        {
-            pergunta: "Qual é a capital da Espanha?",
-            opcoes: [
-                "Berlim",
-                "Madri",
-                "Paris",
-                "Lisboa"
-            ],
-            resposta: "Madri"
-        },
-        {
-            pergunta: "Qual é a capital de Portugal?",
-            opcoes: [
-                "Berlim",
-                "Madri",
-                "Paris",
-                "Lisboa"
-            ],
-            resposta: "Lisboa"
-        }
-    ];  
-    let indiceAtual = 0;
-    let acertos = 0;
-    let respostaSelecionada = "";
-
-    function carregarPergunta() {
-        const perguntaAtual = perguntas[indiceAtual];
-        document.getElementById("pergunta").textContent = perguntaAtual.pergunta;
-
-        const opcoesContainer = document.getElementById("opcoes");
-        opcoesContainer.innerHTML = "";
-        respostaSelecionada = "";   
-
-        perguntaAtual.opcoes.forEach(opcao => {
-            const botao = document.createElement("button");
-            botao.textContent = opcao;
-            botao.classList.add("opcao"); // Não esquecer o ponto e vírgula
-            botao.onclick = () => {
-                const botoes = document.querySelectorAll(".opcao");
-                botoes.forEach(b => b.style.backgroundColor = "#ffffff");
-                botao.style.backgroundColor = "green";
-                respostaSelecionada = opcao;
-            };
-            opcoesContainer.appendChild(botao);
-        });
-    }
-
-    function proximaPergunta() {
-        if (respostaSelecionada === "") {
-            alert ("Selecione antes de continuar!"); // Mensagem mais amigável
-            return;
-        }
-
-        const perguntaAtual = perguntas[indiceAtual];
-        if (respostaSelecionada === perguntaAtual.resposta) {
-            acertos++;
-        } else {
-            document.getElementById("musicacurso").play(); // toca som de erro
-        }
-        indiceAtual++;
-        if (indiceAtual < perguntas.length) {
-            carregarPergunta();
-        } else {
-            mostrarResultado();
-        }
-    }
-
-    function mostrarResultado() {
-        document.getElementById("quiz").classList.add("hidden");
-        document.getElementById("resultado").classList.remove("hidden");
-
-        let total = perguntas.length;
-        let erros = total - acertos;
-
-        document.getElementById("mensagem").innerHTML = `
-            Você acertou <strong>${acertos}</strong> de ${total} perguntas! <br>
-            Você errou <strong>${erros}</strong>.
-        `;
-        // Decida se quer tocar o som final aqui ou apenas no erro
-        // document.getElementById("musicacurso").play(); 
-    }
+<body>
+    <header>
+        <h1>Escola Infantil</h1>
+    </header>
+    <nav>
+        <a href="#texto">titulo</a>
+        <a href="pagina2.html">Página 2</a>
+        <a href="#final">footer</a>
+        <a href="teste do site da escola feito pela ia.html">Página de Teste</a>
+        <a href="quiz.html">Página do Quiz</a>
         
-    function reiniciarQuiz() {
-        indiceAtual = 0;
-        acertos = 0;
-        document.getElementById("resultado").classList.add("hidden");
-        document.getElementById("quiz").classList.remove("hidden");
-        carregarPergunta();
-    }
-
-    // Inicializa o quiz ao carregar a página
-    carregarPergunta();
-    </script>
-
-    <script src="script chatbot.js"></script> 
+    </nav>
+    <h1 id="titulo">Bem-vindo à Escola Infantil</h1>
+    <h1>titulo</h1>
+    <h2 class="subtitulo">Aprendizado Divertido</h2>
+    <h3 class="subtitulo">Explorando o Mundo</h3>
+    <p>Na Escola Infantil, acreditamos que aprender deve ser uma aventura emocionante!</p>
+    <img src="escolinha.jpg" alt="desenho da escola" width="50%" height="50%">
+    <footer>
+        <p id="final">&copy; 2023 Escola Infantil. Todos os direitos reservados.</p>
+        <!-- para ir dirto para o instagram é so colocar o link em a href -->
+        <!--<a href="https://www.instagram.com/seu_perfil" target="_blank">Instagram</a>-->
+    </footer>
 </body>
 </html>

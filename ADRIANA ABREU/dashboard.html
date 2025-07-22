@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrador</title>
+    <!--<link rel="stylesheet" href="estilo.css">-->
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <nav>
+        <a href="#texto">titulo</a>
+        <a href="pagina2.html">Página 2</a>
+        <a href="#final">footer</a>
+        <a href="teste do site da escola feito pela ia.html">Página de Teste</a>
+        <a href="quiz.html">Página do Quiz</a>
+        
+    </nav>
+    <div class="container-principal">
+        <div class="barra-lateral">
+          <div class="barra-lateral-header">
+            <h1>Escola Infantil</h1>
+          </div>
+          <ul class="lista-menu">
+            <li class="item-menu">
+              <a href="#">
+                <span class="item-menu-icone"><ion-icon name="home-outline"></ion-icon></span>
+                <span class="item-menu-texto">Visao Geral</span>
+              </a>
+            </li>
+            <li class="item-menu item-menu-ativo">
+              <a href="#">
+                <span class="item-menu-icone"><ion-icon name="person-add-outline"></ion-icon></span>
+                <span class="item-menu-texto">Matriculas</span>
+                <span id="contador-pendentes"></span>          
+             </a>
+            </li>
+
+            <li class="item-menu">
+              <a href="#">
+                <span class="item-menu-icone"><ion-icon name="game-controller-outline"></ion-icon></span>
+                <span class="item-menu-texto">Gamificação</span>
+              </a>
+            </li>
+            <li class="item-menu">
+              <a href="#">
+                <span class="item-menu-icone"><ion-icon name="chatbubbles-outline"></ion-icon></span>
+                <span class="item-menu-texto">Chatbots</span>
+              </a>
+            </li>
+            <li class="item-menu">
+              <a href="#">
+                <span class="item-menu-icone"><ion-icon name="log-out-outline"></ion-icon></span>
+                <span class="item-menu-texto">Sair</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="conteudo-principal">    
+            <div class="header-principal">
+                <h2>Aprovação de Matrículas</h2>
+                <div class="avatar-admin">
+                    <span>Admin</span>
+                    <img src="admin-avatar.png" alt="Avatar do Administrador" class="usuario-avatar">
+                </div>
+            </div>
+            <div class="container-conteudo">
+                <div class="card">
+                    <h3>Cadastros Pendentes de Aprovação</h3>
+                    <div class="tabela-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome Completo</th>
+                                    <th>CPF</th>
+                                    <th>Data de Cadastro</th>
+                                    <th>Perfil</th>
+                                    <th class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-matriculas">  
+                                <!-- As matrículas pendentes serão inseridas aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                        <p id="mensagem-sem-pendencias" class="text-center">Nenhuma cadastro pendente no momento.</p>   
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Gerenciar Desafios de Gamificação</h3>
+                    <div class="card">
+                        <h3>Gerenciar Desafios de Gamificação</h3>
+                        <div class="container-gamificacao">
+                            <div class="form-desafio">
+                                <h4>Criar Novo Desafio</h4>
+                                <form id="form-novo-desafio">
+                                    <input type="text" id="titulo-desafio" placeholder="Título do Desafio" required>
+                                    <textarea id="descricao-desafio" placeholder="Descrição do Desafio" rows="3" required></textarea>
+                                    <input type="number" id="pontos-desafio" placeholder="Pontos do Desafio" maxlength="2" required>
+
+                                    <button type="submit" class="btn-acao btn-criar">Criar Desafio</button>
+                                </form>
+                            </div>
+                            <div class="lista-desafios">
+                                <h4>Desafios Atuais</h4>
+                                <ul id="lista-desafios">
+                                    <!-- Os desafios de gamificação serão inseridos aqui via JavaScript -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+
+ <!--Script de Logica Principal-->
+ <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, query, where, doc, updateDoc, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFX2cEc-D9xTqhqKQB5jtq0dQvQeATBng",
+      authDomain: "escola-8b874.firebaseapp.com",
+      projectId: "escola-8b874",
+      storageBucket: "escola-8b874.appspot.com",
+      messagingSenderId: "54380730388",
+      appId: "1:54380730388:web:c159879b2f799261d2ef01"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+//---logica de matriculas---
+    const elementoTabela = document.getElementById("tabela-matriculas");
+    const elementoContador = document.getElementById("contador-pendentes");
+    const elementoMensagemVazia = document.getElementById("mensagem-sem-pendencias");
+    let listaDeCadastrosPendentes = [];
+
+    function formatarData(DataISO) {
+        const data = new Date(DataISO);
+        return data.toLocaleDateString("pt-BR");
+    }
+
+    function desenharTabela() {
+elementoTabela.innerHTML = '';
+elementoMensagemVazia.classList.toggle('hidden', listaDeCadastrosPendentes.length > 0);
+listaDeCadastrosPendentes.forEach(cadastro => {
+const linha = document.createElement('tr');
+linha.id = `linha-${cadastro.id}`;
+linha.innerHTML = `
+
+<td class="nome-principal">${cadastro.nomeCompleto}</td>
+<td>${cadastro.cpf}</td>
+<td>${formatarData(cadastro.criadoEm)}</td>
+<td class="capitalize">${cadastro.perfil}</td>
+<td class="text-center">
+<button data-id="${cadastro.id}" class="btn-acao btn-aprovar">Aprovar</button>
+<button data-id="${cadastro.id}" class="btn-acao btn-rejeitar">Rejeitar</button>
+</td>
+`;
+elementoTabela.appendChild(linha);
+});
+atualizarContador();
+}
+function atualizarContador() {
+const total = listaDeCadastrosPendentes.length;
+elementoContador.textContent = total;
+elementoContador.classList.toggle('hidden', total === 0);
+}
+async function aprovarMatricula(id) {
+const docRef = doc(db, "usuarios", id);
+await updateDoc(docRef, { status: "ativo" });
+}
+async function rejeitarMatricula(id) {
+const docRef = doc(db, "usuarios", id);
+await updateDoc(docRef, { status: "rejeitado" });
+}
+elementoTabela.addEventListener('click', (evento) => {
+const alvo = evento.target;
+if (alvo.classList.contains('btn-acao')) {
+const id = alvo.dataset.id;
+if (alvo.classList.contains('btn-aprovar')) aprovarMatricula(id);
+else if (alvo.classList.contains('btn-rejeitar')) rejeitarMatricula(id);
+}
+});
+const queryMatriculas = query(collection(db, "usuarios"), where("status", "==", "pending"));
+onSnapshot(queryMatriculas, (snapshot) => {
+listaDeCadastrosPendentes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+desenharTabela();
+});
+// --- LÓGICA DE GAMIFICAÇÃO ---
+const formNovoDesafio = document.getElementById('form-novo-desafio');
+const listaDesafiosAtivos = document.getElementById('lista-desafios');
+formNovoDesafio.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const novoDesafio = {
+        titulo: document.getElementById('titulo-desafio').value,
+        descricao: document.getElementById('descricao-desafio').value,
+        pontos: parseInt(document.getElementById('pontos-desafio').value),
+        criadoEm: new Date().toISOString(),
+        ativo: true
+    };
+    try {
+        await addDoc(collection(db, "desafios"), novoDesafio);
+        formNovoDesafio.reset();
+    } catch (error) {
+        console.error("Erro ao adicionar desafio: ", error);
+        alert("Não foi possível criar o desafio.");
+    }
+});
+const queryDesafios = query(collection(db, "desafios"), where("ativo", "==", true));
+onSnapshot(queryDesafios, (snapshot) => {
+    listaDesafiosAtivos.innerHTML = '';
+    if (snapshot.empty) {
+        listaDesafiosAtivos.innerHTML = '<li>Nenhum desafio ativo.</li>';
+        return;
+    }
+    snapshot.forEach(doc => {
+        const desafio = doc.data();
+        const item = document.createElement('li');
+        item.innerHTML = `
+            <div class="info-desafio">
+                <strong>${desafio.titulo}</strong>
+                <p>${desafio.pontos} pontos</p>
+            </div>
+        `;
+        listaDesafiosAtivos.appendChild(item);
+    });
+});
+</script>
+</body>
+</html>

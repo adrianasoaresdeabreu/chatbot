@@ -1,12 +1,3 @@
-#video-fundo {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -100;
-    object-fit: cover;
-}
 
 body {
     font-family: Arial, sans-serif;
@@ -51,6 +42,26 @@ button {
 #resultado {
     text-align: center;
 }
+
 #cordapagina {
     background-color: rgb(12, 128, 163);
+}
+
+/* Estilos para os botões de opção do quiz */
+.opcao {
+    display: block; /* Cada opção em uma nova linha */
+    width: 100%; /* Ocupa a largura total do container */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.opcao:hover {
+    background-color: #e0e0e0;
 }
