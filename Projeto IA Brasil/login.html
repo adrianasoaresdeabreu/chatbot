@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Escola Infantil</title>
+<link rel="stylesheet" href="login.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- Ícones (Ionicons) -->
+<script type="module"
+src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule
+src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+
+<div class="container-login">
+<div class="card-login">
+<h1 class="titulo">Bem-vindo(a) de volta!</h1>
+<p class="subtitulo">Faça login para aceder ao seu portal.</p>
+
+<div class="botoes-sociais">
+<button id="btn-login-google" class="botao botao-social google">
+<ion-icon name="logo-google"></ion-icon>
+<span>Entrar com Google</span>
+
+</button>
+<button id="btn-login-microsoft" class="botao botao-social microsoft">
+<ion-icon name="logo-microsoft"></ion-icon>
+<span>Entrar com Microsoft</span>
+</button>
+</div>
+
+<div class="divisor">
+<span>ou</span>
+</div>
+
+<form id="formulario-login">
+<div class="grupo-formulario">
+  <label for="email">E-mail</label>
+  <input type="email" id="email" class="campo-input" required autocomplete="username">
+</div>
+<div class="grupo-formulario">
+  <label for="senha">Senha</label>
+  <input type="password" id="senha" class="campo-input" required autocomplete="current-password">
+</div>
+
+<div id="area-mensagem"></div>
+
+<button type="submit" id="btn-entrar" class="botao">
+Entrar
+</button>
+</form>
+
+<div class="divisor">
+<span>ou</span>
+</div>
+
+<button id="btn-login-facial" class="botao botao-secundario">
+Entrar com Reconhecimento Facial
+</button>
+
+<p class="link-cadastro">Não tem uma conta? <a href="cadastro.html">Crie
+uma agora</a></p>
+</div>
+</div>
+
+<!-- Modal para Reconhecimento Facial -->
+<div id="modal-facial" class="modal-overlay hidden">
+<div class="modal-conteudo">
+<h2 class="titulo-modal">Login Facial</h2>
+<p class="subtitulo-modal">Posicione o seu rosto na câmera.</p>
+<div class="container-video-modal">
+<video id="webcam" autoplay playsinline muted></video>
+<div id="overlay-feedback"></div>
+</div>
+<div id="area-mensagem-facial">A iniciar...</div>
+<button id="btn-fechar-modal" class="btn-fechar-modal">&times;</button>
+</div>
+</div>
+
+<!-- Biblioteca face-api.js -->
+
+<script src="face-api.min.js"></script>
+
+<script type="module">
+// Importações do Firebase SDK
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+// Objeto de configuração do Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyBbTwHR4vYWrE5tahN0yB0B8gRdeCPqc7A",
+  authDomain: "escola-tecnologia.firebaseapp.com",
+  projectId: "escola-tecnologia",
+  storageBucket: "escola-tecnologia.appspot.com",
+  messagingSenderId: "462798445",
+  appId: "1:462798445:web:9deec786a5f3dab3538964"
+};
+
+// Inicializa o Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// --- Elementos do DOM ---
+const formularioLogin = document.getElementById('formulario-login');
+
+const areaMensagemLogin = document.getElementById('area-mensagem');
+const btnEntrar = document.getElementById('btn-entrar');
+const btnLoginGoogle = document.getElementById('btn-login-google');
+const btnLoginMicrosoft = document.getElementById('btn-login-microsoft');
+const btnLoginFacial = document.getElementById('btn-login-facial');
+const modalFacial = document.getElementById('modal-facial');
+const btnFecharModal = document.getElementById('btn-fechar-modal');
+const videoWebcam = document.getElementById('webcam');
+const areaMensagemFacial = document.getElementById('area-mensagem-facial');
+const overlayFeedback = document.getElementById('overlay-feedback');
+let recognitionInterval;
+
+// --- LÓGICA DE LOGIN COM E-MAIL E SENHA ---
+formularioLogin.addEventListener('submit', async (e) => {
+e.preventDefault();
+btnEntrar.disabled = true;
+btnEntrar.textContent = 'Aguarde...';
+areaMensagemLogin.textContent = '';
+const email = document.getElementById('email').value;
+const senha = document.getElementById('senha').value;
+
+try {
+const userCredential = await signInWithEmailAndPassword(auth, email,
+senha);
+await verificarStatusEContinuar(userCredential.user);
+} catch (error) {
+handleLoginError(error);
+}
+
+});
+
+//LÓGICA DE LOGIN SOCIAL
+btnLoginGoogle.addEventListener('click', () => provedorLogin(new
+GoogleAuthProvider()));
+btnLoginMicrosoft.addEventListener('click', () => provedorLogin(new
+OAuthProvider('microsoft.com')));
+
+async function provedorLogin(provider) {
+try {
+const result = await signInWithPopup(auth, provider);
+await verificarStatusEContinuar(result.user, true);
+} catch (error) {
+handleLoginError(error);
+}
+}
+
+// LÓGICA DE LOGIN FACIAL
+btnLoginFacial.addEventListener('click', () => {
+modalFacial.classList.remove('hidden');
+iniciarReconhecimentoFacial();
+});
+
+btnFecharModal.addEventListener('click', () => {
+modalFacial.classList.add('hidden');
+if (videoWebcam.srcObject) {
+videoWebcam.srcObject.getTracks().forEach(track => track.stop());
+}
+clearInterval(recognitionInterval);
+
+});
+
+async function carregarModelosFaceAPI() {
+const URL_MODELOS = './models';
+areaMensagemFacial.textContent = 'A carregar inteligência artificial...';
+await Promise.all([
+faceapi.nets.tinyFaceDetector.loadFromUri(URL_MODELOS),
+faceapi.nets.faceLandmark68Net.loadFromUri(URL_MODELOS),
+faceapi.nets.faceRecognitionNet.loadFromUri(URL_MODELOS)
+]);
+}
+
+async function carregarDescritoresAprovados() {
+areaMensagemFacial.textContent = 'A buscar utilizadores aprovados...';
+const usuariosRef = collection(db, "usuarios");
+const q = query(usuariosRef, where("status", "==", "ativo"),
+where("descritorFacial", "!=", null));
+
+const querySnapshot = await getDocs(q);
+if (querySnapshot.empty) return null;
+
+return querySnapshot.docs.map(doc => {
+const dados = doc.data();
+const descritor = new Float32Array(dados.descritorFacial);
+return new faceapi.LabeledFaceDescriptors(doc.id, [descritor]);
+});
+}
+
+async function iniciarReconhecimentoFacial() {
+try {
+await carregarModelosFaceAPI();
+const descritoresRotulados = await carregarDescritoresAprovados();
+
+        if (!descritoresRotulados) {
+            areaMensagemFacial.textContent = "Nenhum utilizador com rosto registado encontrado.";
+            return;
+        }
+
+const faceMatcher = new faceapi.FaceMatcher(descritoresRotulados, 0.5);
+
+const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+videoWebcam.srcObject = stream;
+
+videoWebcam.addEventListener('play', () => {
+areaMensagemFacial.textContent = "Posicione o seu rosto na câmara.";
+recognitionInterval = setInterval(async () => {
+const deteccoes = await faceapi.detectAllFaces(videoWebcam, new
+faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors();
+
+if (deteccoes.length > 0) {
+const resultado = faceMatcher.findBestMatch(deteccoes[0].descriptor);
+
+if (resultado.label !== 'unknown') {
+clearInterval(recognitionInterval);
+const userId = resultado.label;
+const docRef = doc(db, "usuarios", userId);
+
+const docSnap = await getDoc(docRef);
+loginSucesso(userId, docSnap.data().nomeCompleto);
+} else {
+overlayFeedback.classList.remove('sucesso');
+}
+}
+}, 1000);
+});
+} catch (error) {
+console.error("Erro no reconhecimento facial:", error);
+areaMensagemFacial.textContent = "Erro ao iniciar o reconhecimento facial.";
+}
+}
+
+// --- FUNÇÕES AUXILIARES ---
+async function verificarStatusEContinuar(user, isSocialLogin = false) {
+const docRef = doc(db, "usuarios", user.uid);
+const docSnap = await getDoc(docRef);
+
+if (docSnap.exists()) {
+if (docSnap.data().status === 'ativo') {
+loginSucesso(user.uid, docSnap.data().nomeCompleto);
+} else {
+throw new Error('A sua matrícula ainda está pendente de aprovação.');
+}
+} else if (isSocialLogin) {
+await setDoc(docRef, {
+nomeCompleto: user.displayName,
+
+email: user.email,
+status: 'pending',
+criadoEm: new Date().toISOString(),
+descritorFacial: null
+});
+throw new Error('Conta criada! Aguarde a aprovação da sua matrícula.');
+} else {
+throw new Error('Utilizador não encontrado na base de dados.');
+}
+}
+
+function loginSucesso(userId, nomeUsuario) {
+if (nomeUsuario) {
+areaMensagemFacial.textContent = `Bem-vindo(a), ${nomeUsuario}!`;
+}
+areaMensagemLogin.textContent = 'Login bem-sucedido! A redirecionar...';
+areaMensagemLogin.style.color = '#16a34a';
+overlayFeedback.classList.add('sucesso');
+sessionStorage.setItem('usuarioLogadoId', userId);
+setTimeout(() => { window.location.href = 'portal.html'; }, 1500);
+}
+
+function handleLoginError(error) {
+console.error("Erro no login: ", error);
+    if (
+        error.code === 'auth/user-not-found' ||
+        error.code === 'auth/wrong-password' ||
+        error.code === 'auth/invalid-credential'
+    ) {
+        areaMensagemLogin.textContent = 'E-mail ou senha inválidos.';
+    } else {
+        areaMensagemLogin.textContent = error.message;
+    }
+    btnEntrar.disabled = false;
+    btnEntrar.textContent = 'Entrar';
+}
+</script>
+</body>
+</html>

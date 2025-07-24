@@ -1,0 +1,333 @@
+/* --- Reset Básico e Estilos Globais --- */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Poppins', sans-serif;
+background-color: rgb(183, 222, 220);
+color: #374151;
+}
+
+/* --- Estrutura Principal --- */
+.container-principal {
+display: flex;
+height: 100vh;
+}
+
+/* --- Barra Lateral --- */
+.barra-lateral {
+display: flex;
+flex-direction: column;
+width: 16rem;
+background-color: #ffffff;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.barra-lateral-header {
+display: flex;
+align-items: center;
+justify-content: center;
+height: 5rem;
+box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.barra-lateral-header h1 {
+font-size: 1.5rem;
+font-weight: 700;
+color: #f59e0b;
+}
+
+.lista-menu {
+display: flex;
+flex-direction: column;
+padding-top: 1rem;
+padding-bottom: 1rem;
+list-style: none;
+}
+
+.item-menu a {
+display: flex;
+align-items: center;
+height: 3rem;
+text-decoration: none;
+color: #6b7280;
+
+transition: all 0.2s ease-in;
+}
+
+.item-menu a:hover {
+color: #f59e0b;
+transform: translateX(0.5rem);
+}
+
+.item-menu-icone {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+height: 3rem;
+width: 3rem;
+font-size: 1.125rem;
+color: #9ca3af;
+}
+
+.item-menu-ativo {
+background-color: #fefce8;
+border-right: 4px solid #f59e0b;
+}
+
+.item-menu-ativo a {
+color: #ca8a04;
+}
+
+.item-menu-ativo .item-menu-icone {
+
+color: #f59e0b;
+}
+
+.item-menu-texto {
+font-size: 0.875rem;
+font-weight: 500;
+}
+
+#contador-pendentes {
+margin-left: auto;
+margin-right: 1rem;
+font-size: 0.875rem;
+font-weight: 600;
+background-color: #ef4444;
+color: #ffffff;
+border-radius: 9999px;
+padding: 0.125rem 0.5rem;
+}
+
+/* --- Conteúdo Principal --- */
+.conteudo-principal {
+display: flex;
+flex-direction: column;
+flex: 1;
+overflow-y: auto;
+}
+
+.header-principal {
+
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 5rem;
+background-color: #ffffff;
+box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+padding: 0 1.5rem;
+position: sticky;
+top: 0;
+z-index: 10;
+}
+
+.header-principal h2 {
+font-size: 1.25rem;
+font-weight: 600;
+}
+
+.avatar-admin {
+display: flex;
+align-items: center;
+}
+
+.avatar-admin span {
+font-size: 0.875rem;
+margin-right: 0.5rem;
+}
+
+.avatar-admin img {
+
+width: 2.5rem;
+height: 2.5rem;
+border-radius: 9999px;
+object-fit: cover;
+}
+
+.container-conteudo {
+padding: 1.5rem;
+}
+
+.card {
+background-color: #ffffff;
+padding: 1.5rem;
+border-radius: 0.5rem;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+margin-bottom: 1.5rem;
+}
+
+.card h3 {
+font-size: 1.125rem;
+font-weight: 600;
+margin-bottom: 1rem;
+}
+
+.tabela-wrapper {
+overflow-x: auto;
+}
+
+/* --- Tabela --- */
+table {
+width: 100%;
+font-size: 0.875rem;
+text-align: left;
+color: #6b7280;
+border-collapse: collapse;
+}
+
+thead {
+font-size: 0.75rem;
+color: #374151;
+text-transform: uppercase;
+background-color: #f9fafb;
+}
+
+th, td {
+padding: 0.75rem 1.5rem;
+}
+
+tbody tr {
+background-color: #ffffff;
+border-bottom: 1px solid #e5e7eb;
+transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+background-color: #f9fafb;
+
+}
+
+.nome-principal {
+font-weight: 500;
+color: #111827;
+}
+
+.capitalize { text-transform: capitalize; }
+.text-center { text-align: center; }
+
+.btn-acao {
+font-weight: 500;
+text-decoration: none;
+background: none;
+border: none;
+cursor: pointer;
+margin: 0 0.25rem;
+padding: 0.25rem 0.5rem;
+}
+
+.btn-acao:hover {
+text-decoration: underline;
+}
+
+.btn-aprovar { color: #16a34a; }
+.btn-rejeitar { color: #dc2626; }
+
+.hidden { display: none; }
+
+#mensagem-sem-pendencias {
+padding: 2rem 0;
+}
+
+/* --- SEÇÃO DE GAMIFICAÇÃO --- */
+.container-gamificacao {
+display: flex;
+flex-direction: column;
+gap: 2rem;
+}
+
+.form-desafio h4, .lista-desafios h4 {
+font-size: 1rem;
+font-weight: 600;
+margin-bottom: 1rem;
+color: #4b5563;
+}
+
+#form-novo-desafio {
+display: flex;
+flex-direction: column;
+gap: 0.75rem;
+}
+
+#form-novo-desafio input, #form-novo-desafio textarea {
+width: 100%;
+padding: 0.5rem 0.75rem;
+
+border: 1px solid #d1d5db;
+border-radius: 0.5rem;
+font-family: 'Poppins', sans-serif;
+}
+
+#form-novo-desafio input:focus, #form-novo-desafio textarea:focus {
+outline: none;
+border-color: #facc15;
+box-shadow: 0 0 0 2px #fde68a;
+}
+
+.btn-criar {
+background-color: #f59e0b;
+color: white;
+border-radius: 0.5rem;
+padding: 0.75rem;
+font-weight: 600;
+}
+
+.btn-criar:hover {
+background-color: #d97706;
+text-decoration: none;
+}
+
+#lista-desafios-ativos {
+list-style: none;
+max-height: 300px;
+overflow-y: auto;
+
+padding: 0;
+}
+
+#lista-desafios-ativos li {
+display: flex;
+align-items: center;
+padding: 0.75rem;
+border-bottom: 1px solid #e5e7eb;
+}
+
+#lista-desafios-ativos li:last-child {
+border-bottom: none;
+}
+
+.icone-desafio {
+font-size: 1.5rem;
+margin-right: 1rem;
+}
+
+.info-desafio p {
+font-size: 0.8rem;
+color: #6b7280;
+}
+
+/* --- Responsividade --- */
+@media (min-width: 1024px) {
+.container-gamificacao {
+flex-direction: row;
+
+}
+.form-desafio {
+flex: 1;
+}
+.lista-desafios {
+flex: 1;
+}
+}
+
+@media (max-width: 768px) {
+.barra-lateral {
+display: none;
+}
+}
+#cordapagina {
+    background-color: #d97706;
+}

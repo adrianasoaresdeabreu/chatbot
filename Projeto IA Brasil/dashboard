@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrador</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div class="container-principal">
+        div class="barra-lateral">
+          <div class="barra-lateral-header">
+            <h1>Escola Infantil</h1>
+          </div>
+          <ul class="lista-menu">
+            <li class="item-menu">
+              <a href="#">
+                <span class="item-menu-icone"><ion-icon name="home-outline"></ion-icon></span>
+                <span class="item-menu-texto">Visao Geral</span>
+              </a>
+            </li>
+            <li class="item-menu item-menu-ativo">
+              <a href="#">
+                <span class="item-menu-icone"><ion-icon name="person-add-outline"></ion-icon></span>
+                <span class="item-menu-texto">Matriculas</span>
+                <span id="contador-pendentes"></span>          
+             </a>
+            </li>
+
+            <li class="item-menu">
+              <a href="#">
+                <span class="item-menu-icone"><ion-icon name="game-controller-outline"></ion-icon></span>
+                <span class="item-menu-texto">Gamificação</span>
+              </a>
+            </li>
+            <li class="item-menu">
+              <a href="#">
+                <span class="item-menu-icone"><ion-icon name="chatbubbles-outline"></ion-icon></span>
+                <span class="item-menu-texto">Chatbots</span>
+              </a>
+            </li>
+            <li class="item-menu">
+              <a href="#">
+                <span class="item-menu-icone"><ion-icon name="log-out-outline"></ion-icon></span>
+                <span class="item-menu-texto">Sair</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="conteudo-principal">    
+            <div class="header-principal">
+                <h2>Aprovação de Matrículas</h2>
+                <div class="avatar-admin">
+                    <span>Admin</span>
+                    <img src="admin-avatar.png" alt="Avatar do Administrador" class="usuario-avatar">
+                </div>
+            </div>
+            <div class="container-conteudo">
+                <div class="card">
+                    <h3>Cadastros Pendentes de Aprovação</h3>
+                    <div class="tabela-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome Completo</th>
+                                    <th>CPF</th>
+                                    <th>Data de Cadastro</th>
+                                    <th>Perfil</th>
+                                    <th class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-matriculas">  
+                                <!-- As matrículas pendentes serão inseridas aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                        <p id="mensagem-sem-pendencias" class="text-center">Nenhuma cadastro pendente no momento.</p>   
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Gerenciar Desafios de Gamificação</h3>
+                    <div class="card">
+                        <h3>Gerenciar Desafios de Gamificação</h3>
+                        <div class="container-gamificacao">
+                            <div class="form-desafio">
+                                <h4>Criar Novo Desafio</h4>
+                                <form id="form-novo-desafio">
+                                    <input type="text" id="titulo-desafio" placeholder="Título do Desafio" required>
+                                    <textarea id="descricao-desafio" placeholder="Descrição do Desafio" rows="3" required></textarea>
+                                    <input type="number" id="pontos-desafio" placeholder="Ícone da Medalha" maxlength="2" required>
+
+                                    <button type="submit" class="btn-acao btn-criar">Criar Desafio</button>
+                                </form>
+                            </div>
+                            <table>
+                               
+                                <tbody id="tabela-desafios">  
+                                    <!-- Os desafios de gamificação serão inseridos aqui via JavaScript -->
+                                </tbody>
+                            </table>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome Completo</th>
+                                    <th>CPF</th>
+                                    <th>Data de Aprovação</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-relatorio">  
+                                <!-- O relatório de matrículas será inserido aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                
+        
+</body>
+</html>

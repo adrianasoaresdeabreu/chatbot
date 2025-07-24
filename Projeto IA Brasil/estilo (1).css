@@ -1,0 +1,45 @@
+body{
+    background-color: rgb(183, 222, 220);
+    
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+h1  {
+    color: #ff0000;
+    text-align: center;
+}
+#titulo {
+    color: #ff0000;
+    
+}
+.subtitulo {color: #78a916;
+}
+
+h2  {
+    color: #78a916;
+    text-align: center;
+}
+
+h3  {
+    color: #f1d607;
+    text-align: center;
+}
+
+p {
+    color: #666;
+}
+/* pagina 2 */
+#cordapagina {
+    background-color: rgb(12, 128, 163);
+}
+h1:hover {
+    color: green;
+}
+/* pagina 1 */
+#final {
+       color:black;
+}
+/* para inserir comentario */

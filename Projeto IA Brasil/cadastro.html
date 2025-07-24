@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crie sua Conta - Escola Futuro</title>
+<link rel="stylesheet" href="cadastro.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+swap" rel="stylesheet">
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container-cadastro">
+<div class="card-cadastro">
+<h1 class="titulo">Crie sua Conta</h1>
+<p class="subtitulo">Use seu e-mail para se cadastrar.</p>
+
+<form id="formulario-cadastro">
+<div class="grupo-formulario">
+<label for="nomeCompleto">Nome Completo</label>
+<input type="text" id="nomeCompleto" class="campo-input" required>
+</div>
+<div class="grupo-formulario">
+<label for="cpf">CPF</label>
+<input type="text" id="cpf" class="campo-input" required
+
+placeholder="000.000.000-00">
+
+</div>
+<div class="grupo-formulario">
+<label for="dataNascimento">Data de Nascimento</label>
+<input type="date" id="dataNascimento" class="campo-input" required>
+</div>
+<div class="grupo-formulario">
+<label for="email">E-mail</label>
+<input type="email" id="email" class="campo-input" required>
+</div>
+<div class="grupo-formulario">
+<label for="senha">Senha</label>
+<input type="password" id="senha" class="campo-input" required
+
+minlength="6">
+</div>
+
+<div id="area-mensagem"></div>
+
+<button type="submit" id="btn-enviar-cadastro" class="botao">
+Criar Conta
+</button>
+</form>
+<p class="link-login">Já tem uma conta? <a href="login_facial.html">Faça
+login</a></p>
+</div>
+</div>
+
+<script type="module">
+// Importações do Firebase SDK
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+// Objeto de configuração do Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyBbTwHR4vYWrE5tahN0yB0B8gRdeCPqc7A",
+  authDomain: "escola-tecnologia.firebaseapp.com",
+  projectId: "escola-tecnologia",
+  storageBucket: "escola-tecnologia.appspot.com",
+  messagingSenderId: "462798445",
+  appId: "1:462798445:web:9deec786a5f3dab3538964"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// --- Elementos do DOM ---
+const formulario = document.getElementById('formulario-cadastro');
+const areaMensagem = document.getElementById('area-mensagem');
+const btnEnviar = document.getElementById('btn-enviar-cadastro');
+
+formulario.addEventListener('submit', async (e) => {
+
+e.preventDefault();
+
+btnEnviar.disabled = true;
+btnEnviar.textContent = 'Aguarde...';
+areaMensagem.textContent = '';
+
+const nomeCompleto = document.getElementById('nomeCompleto').value;
+const cpf = document.getElementById('cpf').value;
+const dataNascimento = document.getElementById('dataNascimento').value;
+const email = document.getElementById('email').value;
+const senha = document.getElementById('senha').value;
+
+try {
+// Passo 1: Criar o usuário no Firebase Authentication
+const userCredential = await createUserWithEmailAndPassword(auth, email,
+senha);
+const user = userCredential.user;
+
+areaMensagem.textContent = 'Usuário criado! Salvando seus dados...';
+
+// Passo 2: Salvar os dados adicionais no Firestore
+await setDoc(doc(db, "usuarios", user.uid), {
+nomeCompleto: nomeCompleto,
+cpf: cpf,
+dataNascimento: dataNascimento,
+email: email,
+status: 'pending',
+criadoEm: new Date().toISOString(),
+
+descritorFacial: null // Começa como nulo
+});
+
+// Passo 3: Mostrar mensagem de sucesso
+document.body.innerHTML = `
+<div class="card-sucesso">
+<h1>Cadastro Enviado!</h1>
+<p>Sua conta foi criada com sucesso.</p>
+<p>Aguarde a aprovação da sua matrícula pela escola para poder fazer o
+
+login.</p>
+</div>
+`;
+
+} catch (error) {
+    console.error("Erro no cadastro: ", error);
+    areaMensagem.textContent = `Erro: ${error.message}`;
+    btnEnviar.textContent = 'Criar Conta';
+}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+/*chatbot*/
+.container-chatbot {
+    position: fixed;
+    bottom: 1.25rem; /* Corrigido de vírgula para ponto */
+    right: 1.25rem;  /* Corrigido de vírgula para ponto */
+    z-index: 100;
+}
+
+.btn-abrir-chat {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 3rem;
+    height: 3rem;
+    background-color: #bd105b;
+    color: white;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex; /* Para centralizar o ícone */
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem; /* Ajuste o tamanho do ícone se necessário */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Adicionado sombra para destaque */
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+#janela-chat {
+    position: fixed;
+    bottom: 3.5rem;
+    right: 0;
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex; /* <-- isso aqui faz ele aparecer corretamente */
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#janela-chat.hidden {
+    display: none !important; /* controla visibilidade via JavaScript */
+}
+
+.header-chat {
+    background-color: #3ec20e;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex; /* Para alinhar título e botão de fechar */
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0; /* Impede que o header encolha */
+}
+
+.header-chat-titulo {
+    font-size: 1.2rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.header-chat h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.seletor-ia {
+    background-color: transparent; /* Mudei para transparente, aqua parecia estranho */
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    padding: 2px 5px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.header-chat button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.5rem; /* Para o 'x' de fechar */
+}
+
+#corpo-chat {
+    padding: 10px;
+    flex-grow: 1; /* Permite que o corpo do chat ocupe o espaço restante */
+    overflow-y: auto; /* Enable scrolling */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaçamento entre as mensagens */
+}
+
+.mensagem-bot, .mensagem-usuario {
+    display: flex;
+    /* margin: 5px 0; Removido, usando gap no corpo-chat */
+}
+
+.mensagem-bot span, .mensagem-usuario span {
+    padding: 8px 12px; /* Ajuste o padding */
+    border-radius: 15px; /* Deixa as bordas mais arredondadas */
+    max-width: 80%;
+    word-wrap: break-word;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra leve para as mensagens */
+}
+
+.mensagem-bot span {
+    background-color: #e0e0e0; /* Um cinza mais claro */
+    color: #333;
+    align-self: flex-start; /* Alinha à esquerda */
+}
+
+.mensagem-usuario {
+    justify-content: flex-end;
+}
+
+.mensagem-usuario span {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end; /* Alinha à direita */
+}
+
+.mensagem-bot.digitando span {
+    background-color: #f0f0f0; /* Cor um pouco diferente para "digitando" */
+    color: #555;
+    animation: bounce 1s infinite;
+}
+
+.rodape-chat {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* Impede que o rodapé encolha */
+}
+
+#input-chat { /* ID para o input */
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 0.9rem;
+}
+
+#btn-enviar-chat {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px; /* Ajuste o padding do botão */
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem; /* Ajuste o tamanho do ícone de enviar */
+    min-width: 40px; /* Garante tamanho mínimo para o botão */
+    min-height: 40px; /* Garante tamanho mínimo para o botão */
+}
+
+/* Classe 'hidden' para esconder elementos */
+.hidden {
+    display: none !important; /* Usar !important para garantir que sobrescreva outros estilos */
+}
